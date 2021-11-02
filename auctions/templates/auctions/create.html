@@ -1,0 +1,51 @@
+{% extends 'auctions/layout.html' %}
+
+{% block title %}Create A Listing{% endblock %}
+
+
+{% block body %}
+
+<div class="container py-5">
+    <div class="row text-center text-black mb-5">
+        <div class="col-lg-7 mx-auto">
+            <h1 class="display-4">Create A Listing</h1>
+        </div>
+    </div>
+    <form action="{% url 'create' %}" method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="title" class="form-label">Title:</label>
+            <input type="text" required autofocus autocomplete="off" class="form-control" 
+            name="title" id="title">
+        </div>  
+        <div class="mb-3">
+            <label for="price" class="form-label">Price:</label>
+            <input type="number" required autocomplete="off" class="form-control" 
+            name="price" step="0.01" id="price">
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description:</label>
+            <textarea class="form-control" required rows="5" name="description"
+             id="description"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="category" class="form-label">Category:</label>
+            <select name="category" required class="form-select" id="category">
+                {% for category in categories %}
+                    <option value="{{ category }}">{{ category }}</option>
+                {% endfor %}   
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="image_url"  class="form-label">Image URL:</label>
+            <input type="text" autocomplete="off" style="width: 100%;" placeholder=https://image.example.com/img
+            class="form-control" name="image_url" id="image_url">
+        </div>
+        <div class="d-grid gap-2">
+            <button class="btn btn-secondary" type="submit">Create Listing</button>
+        </div>
+    </form>
+</div>
+
+
+{% endblock %}

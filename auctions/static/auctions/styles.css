@@ -1,0 +1,45 @@
+body {
+    padding: 10px;
+}
+
+.listing-thumb {
+    padding: 20px;
+    border: 20px;
+    margin: 20px;
+    float: left;
+}
+
+.listing-box {
+    height: 200px;
+    width: auto;
+    padding: 10px;
+    margin: 10px;
+    color: black;
+}
+
+a, a:link, a:visited {
+    color: black;
+    text-decoration: none;
+  }
+
+
+#bidForm {
+    justify-content: center;
+}
+
+#watchButton:hover:before {
+    content: "\2665 Unwatch";
+}
+
+#watchButton:hover span {
+    display:none;
+}
+
+#commentBox {
+    width: 100%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.shadow {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}

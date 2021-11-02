@@ -1,0 +1,35 @@
+{% extends 'auctions/layout.html' %}
+
+{% block title %}Watchlist{% endblock %}
+
+{% block body %}
+
+<div class="container py-5">
+    <div class="row text-center text-black mb-5">
+        <div class="col-lg-7 mx-auto">
+            <h1 class="display-4">My Watchlist</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <ul class="list-group shadow">
+                {% for listing in listings %} 
+                    <li class="list-group-item">
+                        <div class="media align-items-lg-center flex-column flex-lg-row p-1"><a href="{% url 'listing' listing.listing.id %}">
+                            <img src="{{ listing.listing.image_url }}" alt="{{ listing.listing.title }}" width="200" height="200" class="ml-lg-1 order-1 order-lg-1"></a>
+                            <div class="media-body order-2 order-lg-2" style="margin-left: 10px">
+                                <h5 class="mt-0 font-weight-bold mb-2"><a href="{% url 'listing' listing.listing.id %}" 
+                                    style="color: black; text-decoration: none;">{{ listing.listing.title }}</a></h5>
+                                <p class="font-italic text-muted mb-2 small">{{ listing.listing.description }}</p>
+                                <h6 class="font-weight-bold my-2">${{ listing.listing.price | floatformat:2}}</h6>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

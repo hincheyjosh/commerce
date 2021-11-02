@@ -1,0 +1,80 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}{{ listing.title }}{% endblock %}
+
+{% block body %}
+
+{% if message %}
+    <div class="alert alert-primary text-center" role="alert">
+        {{ message | safe }}
+    </div>
+{% endif %}
+<div class="container py-5">
+    <div class="row text-center text-black mb-5">
+        <div class="col-lg-7 mx-auto">
+            <h1 class="display-4">{{ listing.title }}</h1>
+        </div>
+    </div>
+    <div class="text-center" style="margin-bottom: 5px;">
+        <img class="shadow" src="{{listing.image_url}}" width="500px" height="500px" 
+        style="align-content: center;" alt="A photo of a {{ listing.title }}">
+    </div>
+    <div class="text-center">
+        <li class="list-group-item shadow">
+            <p class="font-italic text-muted mb-2 large">{{ listing.description }}</p>
+            <h6 class="font-weight-bold my-2"
+            >Current Price: ${{ listing.price | floatformat:2 }}</h6>
+            {% if listing.is_active %}
+                <form class="form-inline px-2" method="post" id="bidForm" action="{% url 'bid' listing.id %}">
+                    {% csrf_token %}
+                    <h6 class="font-weight-bold my-2 px-2">Place A Bid: </h6>
+                    <input type="number" class="form-control px-2"
+                    min="{{ lowest_bid }}" step="0.01" name="bidAmount" id="bidAmount">
+                    <button type="submit" style="margin-left: 5px;" class="btn btn-primary px-2">Place Bid</button>
+                </form>
+                {% if is_watchlist %}
+                    <a href="{% url 'removeWatchlist' listing.id %}" class="btn btn-outline-primary btn-lg px-2"
+                    style="margin-top: 5px;" id="watchButton" role="button" 
+                    aria-pressed="true"><span>&#128153; Watching</span></a>
+                {% else %}
+                    <a href="{% url 'addWatchlist' listing.id %}" class="btn btn-outline-primary btn-lg px-2"
+                    style="margin-top: 5px;"aria-pressed="true" role="button">&#9825; Add to Watchlist</a>
+                {% endif %}
+                {% if is_user %}
+                    <div>
+                        <a href="{% url 'closeAuction' listing.id%}" class="btn btn-danger px-2"
+                        style="margin-top: 5px;" role="button" aria-pressed="true">Close Auction</a>
+                    </div>
+                {% endif %}
+            {% endif %}
+        </li>
+    </div>
+    {% if comments %}
+        <div class="col-lg-7 mx-auto text-center" style="margin-top: 10px;">
+            <h3 class="display-5">Comments</h3>
+        </div>
+            <ul class="list-group shadow">
+                {% for comment in comments %} 
+                    <li class="list-group-item">
+                        <div class="media-body order-2 order-lg-2" style="margin-left: 10px">
+                            <h5 class="mt-0 font-weight-bold mb-2">{{ comment.user.username }}</h5>
+                            <p class="font-italic text-muted mb-2 small">{{ comment.content }}</p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+    {% endif %}
+    {% if user.is_authenticated %}
+    <div class="mx-auto text-center" style="margin-top: 15px;">
+        <h3 class="display-5">Leave A Comment</h3>
+        <form action="{% url 'comment' listing.id %}" class="form-inline" method="post">
+            {% csrf_token %}
+            <textarea class="form-control" name="comment" id="commentBox" rows="5"></textarea>
+            <button type="submit" style="margin-top: 5px;" class="btn btn-secondary">Comment</button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}
+
